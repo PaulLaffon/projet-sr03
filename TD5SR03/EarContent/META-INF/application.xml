@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/application_7.xsd" id="Application_ID" version="7">
+  <display-name>TD5SR03</display-name>
+  <module>
+    <ejb>TD5SR03_EJB.jar</ejb>
+  </module>
+  <module>
+    <web>
+      <web-uri>TD5SR03_REST.war</web-uri>
+      <context-root>TD5SR03_REST</context-root>
+    </web>
+  </module>
+  <module>
+    <web>
+      <web-uri>TD5SR03_WEB.war</web-uri>
+      <context-root>TD5SR03_WEB</context-root>
+    </web>
+  </module>
+</application>

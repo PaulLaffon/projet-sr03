@@ -1,0 +1,30 @@
+@charset "utf-8";
+@font-face {	font-family: 'DIN-Light';	
+				src: url('../fonts/dinlight.eot?#iefix') format('embedded-opentype'), 
+				     url('../fonts/dinlight.woff') format('woff'),
+					 url('../fonts/dinlight.ttf') format('truetype'),
+					 url('../fonts/dinlight.svg#svgFontName') format('svg');
+
+				font-weight: normal;
+				font-style: normal;
+			}
+			
+@font-face {	font-family: 'DIN-Regular';	
+				src: url('../fonts/dinregular.eot?#iefix') format('embedded-opentype'), 
+				     url('../fonts/dinregular.woff') format('woff'),
+					 url('../fonts/dinregular.ttf') format('truetype'),
+					 url('../fonts/dinregular.svg#svgFontName') format('svg');
+
+				font-weight: normal;
+				font-style: normal;
+			}
+@font-face {	font-family: 'DIN-Bold';
+				src: url('../fonts/dinbold.eot?#iefix') format('embedded-opentype'), 
+				     url('dinbold.woff') format('woff'),
+					 url('dinbold.ttf') format('truetype'),
+					 url('dinbold.svg#svgFontName') format('svg');
+
+				font-weight: normal;
+				font-style: normal;
+			}
+

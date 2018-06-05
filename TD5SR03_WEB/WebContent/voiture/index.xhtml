@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+	<title><h:outputText value="Lecture WebService" /></title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<h:outputStylesheet library="default" name="bootstrap/bootstrap.min.css"  />
+	<h:outputStylesheet library="default" name="bootstrap/jquery.mmenu.all.css"  />
+	<h:outputStylesheet library="default" name="bootstrap/fonts.css"  />
+	<h:outputStylesheet library="default" name="bootstrap/mystyle.css"  />
+	<h:outputStylesheet library="default" name="css/moncss.css"  />
+	<h:outputScript library="default" name="JS/jquery-2.2.0.min.js"  />
+	<h:outputScript library="default" name="JS/jquery.mmenu.min.all.js"  />
+	<h:outputScript library="default" name="JS/ent.js"  />
+	<h:outputScript library="default" name="JS/bootstrap.min.js"  />
+</h:head>
+
+
+
+<body id="page">
+
+	<header id="MainBar">
+		<div id="LightGreyNav">
+			<div class="container clearfix editeurBar">
+				<h:outputText value="Lecture WebService" escape="false" />
+			</div>
+		</div>
+	</header>
+
+	<main id="PageContenu" class="container" style="margin-top: 55px">
+
+		<div class="col-sm-12 LeContenu">
+			<h3>Affichage d'un exemple</h3>
+			
+			<h:form id="data">
+			
+				<h:outputText value="Choix du modele: " /> <br/>
+				<div id="conteneur1">
+					<div class="element1">
+						<h:selectOneMenu value="#{gestForTest.modele.nom}">
+						    <f:selectItems value="#{gestForTest.modeles}" var="mode" itemValue="#{mode.nom}" itemLabel="#{mode.nom}" />
+						<f:ajax event="valueChange" listener ="#{gestForTest.updateModele}" render="t1 t7" ></f:ajax>
+						</h:selectOneMenu>
+					</div>
+					<div class="element2">
+						<h:panelGroup id="t1">			
+							<table id= "table1" class="table table-striped gpaTitle chargecenter">
+								<tr>
+									<th>nom</th>
+									<th>marque</th>
+									<th>prix</th>
+								</tr>				
+								
+								<tr>
+									<td><h:outputText value="#{gestForTest.modele.nom}"/></td>
+									<td><h:outputText value="#{gestForTest.modele.marque}"/></td>
+									<td><h:outputText value="#{gestForTest.modele.prix}"/></td>
+								</tr>	
+							</table>
+						</h:panelGroup>
+					</div>
+				</div>
+				
+				<h:outputText value="Choix du type de finition: " /> <br/>
+				<div id="conteneur2">
+					<div class="element1">
+						<h:selectOneMenu value="#{gestForTest.finition.type}">
+						    <f:selectItems value="#{gestForTest.finitions}" var="fini" itemValue="#{fini.type}" itemLabel="#{fini.type}" />
+						<f:ajax event="valueChange" listener ="#{gestForTest.updateTypeFinition}" render="t2 t7" ></f:ajax>
+						</h:selectOneMenu>
+					</div>	
+					<div class="element2">
+						<h:panelGroup id="t2">			
+							<table id= "table2" class="table table-striped gpaTitle chargecenter">
+								<tr>
+									<th>type</th>
+									<th>prix</th>
+								</tr>				
+								
+								<tr>
+									<td><h:outputText value="#{gestForTest.finition.type}"/></td>
+									<td><h:outputText value="#{gestForTest.finition.prix}"/></td>
+								</tr>	
+							</table>
+						</h:panelGroup>	
+					</div>
+				</div>
+				
+				<h:outputText value="Choix du moteur: " /> <br/>
+				<div id="conteneur3">
+					<div class="element1">
+						<h:selectOneMenu value="#{gestForTest.motorisation.nomMoteur}">
+						    <f:selectItems value="#{gestForTest.motorisations}" var="moto" itemValue="#{moto.nomMoteur}" itemLabel="#{moto.nomMoteur}" />
+						<f:ajax event="valueChange" listener ="#{gestForTest.updateMotorisation}" render="t3 t7" ></f:ajax>
+						</h:selectOneMenu>
+					</div>
+					
+					<div class="element2">	
+						<h:panelGroup id="t3">			
+							<table id= "table3" class="table table-striped gpaTitle chargecenter">
+								<tr>
+									<th>nom</th>
+									<th>puissance</th>
+									<th>prix</th>
+								</tr>				
+								
+								<tr>
+									<td><h:outputText value="#{gestForTest.motorisation.nomMoteur}"/></td>
+									<td><h:outputText value="#{gestForTest.motorisation.puissance}"/></td>
+									<td><h:outputText value="#{gestForTest.motorisation.prix}"/></td>
+								</tr>	
+							</table>
+						</h:panelGroup>
+					</div>
+				</div>
+				
+				<h:outputText value="Choix des jantes: " /> <br/>
+				<div id="conteneur4">
+					<div class="element1">
+						<h:selectOneMenu value="#{gestForTest.jante.matiere}">
+						    <f:selectItems value="#{gestForTest.jantes}" var="jan" itemValue="#{jan.matiere}" itemLabel="#{jan.matiere}" />
+						<f:ajax event="valueChange" listener ="#{gestForTest.updateTypeJante}" render="t4 t7" ></f:ajax>
+						</h:selectOneMenu>
+					</div>
+							
+					<div class="element2">			
+						<h:panelGroup id="t4">		
+							<table id= "table4" class="table table-striped gpaTitle chargecenter">
+								<tr>
+									<th>matiere</th>
+									<th>diametre</th>
+									<th>prix</th>
+								</tr>				
+								
+								<tr>
+									<td><h:outputText value="#{gestForTest.jante.matiere}"/></td>
+									<td><h:outputText value="#{gestForTest.jante.diametre}"/></td>
+									<td><h:outputText value="#{gestForTest.jante.prix}"/></td>
+								</tr>	
+							</table>
+						</h:panelGroup>
+					</div>
+				</div>
+				
+				<h:outputText value="Choix de la couleur: " /> <br/>
+				<div id="conteneur5">
+					<div class="element1">
+						<h:selectOneMenu value="#{gestForTest.couleur.couleur}">
+						    <f:selectItems value="#{gestForTest.couleurs}" var="coul" itemValue="#{coul.couleur}" itemLabel="#{coul.couleur}" />
+						<f:ajax event="valueChange" listener ="#{gestForTest.updateCouleur}" render="t5 t7" ></f:ajax>
+						</h:selectOneMenu>
+					</div>
+							
+					<div class="element2">	
+						<h:panelGroup id="t5">		
+							<table id= "table5" class="table table-striped gpaTitle chargecenter">
+								<tr>
+									<th>couleur</th>
+									<th>prix</th>
+								</tr>				
+								
+								<tr>
+									<td><h:outputText value="#{gestForTest.couleur.couleur}"/></td>
+									<td><h:outputText value="#{gestForTest.couleur.prix}"/></td>
+								</tr>	
+							</table>
+						</h:panelGroup>
+					</div>
+				</div>
+				
+				<h:outputText value="Choix des options: " />
+				<div id="conteneur6">
+					<div class="element1">
+						<h:selectManyCheckbox layout="pageDirection" value = "#{gestForTest.currentOpts}"> 
+						   <f:selectItems value="#{gestForTest.options}" var="opt" itemValue="#{opt.nom}" itemLabel="#{opt.nom}" />
+						<f:ajax event="click" listener ="#{gestForTest.updateCurrentOptionSups}" render="t6 t7" ></f:ajax>
+						</h:selectManyCheckbox>
+					</div>
+						
+					<div class="element2">
+						<h:panelGroup id="t6">
+							<table id= "table6" class="table table-striped gpaTitle chargecenter">
+								<tr>
+									<th>nom</th>
+									<th>description</th>
+									<th>prix</th>
+								</tr>				
+								
+								<ui:repeat value="#{gestForTest.currentOptions}" var="opti">
+									<tr>
+										<td><h:outputText value="#{opti.nom}"/></td>
+										<td><h:outputText value="#{opti.description}"/></td>
+										<td><h:outputText value="#{opti.prix}"/></td>
+									</tr>	
+								</ui:repeat>
+			
+							</table>
+						</h:panelGroup>
+					</div>
+				</div>
+				
+				<h:panelGroup id="t7">
+					<h:outputText value="Prix total de la voiture " />
+					<h:outputText value="#{gestForTest.prixTotal} " />
+				</h:panelGroup>
+			</h:form>
+				
+			
+		</div>			
+	</main>
+
+
+</body>
+</html>

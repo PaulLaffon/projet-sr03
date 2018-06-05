@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="TD5SR03_JPA">
+		<jta-data-source>java:/sr03</jta-data-source>
+		<class>model.Couleur</class>
+		<class>model.Modele</class>
+		<class>model.Motorisation</class>
+		<class>model.OptionSup</class>
+		<class>model.TypeFinition</class>
+		<class>model.TypeJante</class>
+		<class>model.Voiture</class>
+	</persistence-unit>
+</persistence>

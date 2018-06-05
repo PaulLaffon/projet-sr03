@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="TD5SR03">
+        <wb-resource deploy-path="/" source-path="/EarContent" tag="defaultRootSource"/>
+        <dependent-module archiveName="TD5SR03_JPA.jar" deploy-path="/lib" handle="module:/resource/TD5SR03_JPA/TD5SR03_JPA">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="TD5SR03_EJB.jar" deploy-path="/" handle="module:/resource/TD5SR03_EJB/TD5SR03_EJB">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="TD5SR03_EJBClient.jar" deploy-path="/" handle="module:/resource/TD5SR03_EJBClient/TD5SR03_EJBClient">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="TD5SR03_REST.war" deploy-path="/" handle="module:/resource/TD5SR03_REST/TD5SR03_REST">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="TD5SR03_WEB.war" deploy-path="/" handle="module:/resource/TD5SR03_WEB/TD5SR03_WEB">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+    </wb-module>
+</project-modules>
