@@ -215,7 +215,7 @@ public class GestForTest {
 				.queryParam("name", name)  //Avec ces paramètres
 				.request(MediaType.APPLICATION_JSON)  //On obtient résultat sous forme de JSON
 				.get(new GenericType<ModeleTemplate>() {});  //On transfert le JSON dans l'objet VoitureTemplate
-		this.updatePrixTotal();
+		this.updatePrixTotal(); 
 	}
 	
 	public void updateMotorisation(AjaxBehaviorEvent event) {

@@ -37,6 +37,7 @@ public class VoitureEjb implements VoitureLocalEjb {
     		return q.getResultList();
     }
     
+    
     @SuppressWarnings("unchecked")
 	public List<Couleur> getCouleurs()
     {
@@ -235,6 +236,8 @@ public class VoitureEjb implements VoitureLocalEjb {
 		 
 		 return (TypeJante) q.getSingleResult();	 
 	}
+
+	
 
 
     

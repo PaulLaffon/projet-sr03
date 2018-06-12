@@ -1,6 +1,7 @@
 package projet_rest;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -14,6 +15,7 @@ import javax.ws.rs.core.Response;
 
 import model.Couleur;
 import model.Motorisation;
+import model.TypeFinition;
 import model.TypeJante;
 import sr03.projet.fr.VoitureLocalEjb;
 
