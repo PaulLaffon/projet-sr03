@@ -26,7 +26,7 @@
 	<header id="MainBar">
 		<div id="LightGreyNav">
 			<div class="container clearfix editeurBar">
-				<h:outputText value="Lecture WebService" escape="false" />
+				<h:outputText value="Projet SR03" escape="false" />
 			</div>
 		</div>
 	</header>
@@ -34,68 +34,73 @@
 	<main id="PageContenu" class="container" style="margin-top: 55px">
 
 		<div class="col-sm-12 LeContenu">
-			<h3>Affichage d'un exemple</h3>
+			<h3>Configurateur d'achat de voiture</h3>
 			
 			<h:form id="data">
-			
-				<h:outputText value="Choix du modele: " /> <br/>
+				<br/>
 				<div id="conteneur1">
-					<div class="element1">
-						<h:selectOneMenu value="#{gestForTest.modele.nom}">
-						    <f:selectItems value="#{gestForTest.modeles}" var="mode" itemValue="#{mode.nom}" itemLabel="#{mode.nom}" />
-						<f:ajax event="valueChange" listener ="#{gestForTest.updateModele}" render="t1 t7" ></f:ajax>
+					<div class="col-md-4 text-left lead">Choix du modèle: </div>
+					<div class="element1 col-md-4">
+						<h:selectOneMenu class="form-control" value="#{configurateurBean.modele.nom}">
+							<f:selectItem itemValue="#{null}" itemLabel="--Select--" itemDisabled="true" />
+						    <f:selectItems value="#{configurateurBean.modeles}" var="mode" itemValue="#{mode.nom}" itemLabel="#{mode.nom}" />
+						<f:ajax event="valueChange" listener ="#{configurateurBean.updateModele}" render="t1 t2 t3 t4 t5 t6 s1 s2 s3 s4 s5 prixTot" ></f:ajax>
 						</h:selectOneMenu>
 					</div>
 					<div class="element2">
 						<h:panelGroup id="t1">			
 							<table id= "table1" class="table table-striped gpaTitle chargecenter">
 								<tr>
-									<th>nom</th>
-									<th>marque</th>
-									<th>prix</th>
+									<th>Nom</th>
+									<th>Marque</th>
+									<th>Prix</th>
 								</tr>				
 								
 								<tr>
-									<td><h:outputText value="#{gestForTest.modele.nom}"/></td>
-									<td><h:outputText value="#{gestForTest.modele.marque}"/></td>
-									<td><h:outputText value="#{gestForTest.modele.prix}"/></td>
+									<td><h:outputText value="#{configurateurBean.modele.nom}"/></td>
+									<td><h:outputText value="#{configurateurBean.modele.marque}"/></td>
+									<td><h:outputText value="#{configurateurBean.modele.prix}"/></td>
 								</tr>	
 							</table>
 						</h:panelGroup>
 					</div>
 				</div>
 				
-				<h:outputText value="Choix du type de finition: " /> <br/>
+				<br/>
 				<div id="conteneur2">
-					<div class="element1">
-						<h:selectOneMenu value="#{gestForTest.finition.type}">
-						    <f:selectItems value="#{gestForTest.finitions}" var="fini" itemValue="#{fini.type}" itemLabel="#{fini.type}" />
-						<f:ajax event="valueChange" listener ="#{gestForTest.updateTypeFinition}" render="t2 t7" ></f:ajax>
+					<div class="col-md-4 text-left lead">Choix du type de finition: </div>
+					<div class="element1 col-md-4">
+						<h:selectOneMenu id="s1" class="form-control" value="#{configurateurBean.finition.type}" disabled="#{configurateurBean.modeleNotSelected}">
+							<f:selectItem itemValue="#{null}" itemLabel="--Select--" itemDisabled="true" />
+						    <f:selectItems value="#{configurateurBean.finitions}" var="fini" itemValue="#{fini.type}" itemLabel="#{fini.type}" />
+						<f:ajax event="valueChange" listener ="#{configurateurBean.updateTypeFinition}" render="t2 t3 t4 t5 t6 s2 s3 s4 s5 prixTot" ></f:ajax>
 						</h:selectOneMenu>
 					</div>	
 					<div class="element2">
 						<h:panelGroup id="t2">			
 							<table id= "table2" class="table table-striped gpaTitle chargecenter">
 								<tr>
-									<th>type</th>
-									<th>prix</th>
+									<th>Type</th>
+									<th>Prix</th>
 								</tr>				
 								
 								<tr>
-									<td><h:outputText value="#{gestForTest.finition.type}"/></td>
-									<td><h:outputText value="#{gestForTest.finition.prix}"/></td>
+									<td><h:outputText value="#{configurateurBean.finition.type}"/></td>
+									<td><h:outputText value="#{configurateurBean.finition.prix}"/></td>
 								</tr>	
 							</table>
 						</h:panelGroup>	
 					</div>
 				</div>
 				
-				<h:outputText value="Choix du moteur: " /> <br/>
+				<br/>
 				<div id="conteneur3">
-					<div class="element1">
-						<h:selectOneMenu value="#{gestForTest.motorisation.nomMoteur}">
-						    <f:selectItems value="#{gestForTest.motorisations}" var="moto" itemValue="#{moto.nomMoteur}" itemLabel="#{moto.nomMoteur}" />
-						<f:ajax event="valueChange" listener ="#{gestForTest.updateMotorisation}" render="t3 t7" ></f:ajax>
+					<div class="col-md-4 text-left lead">Choix du moteur: </div>
+					<div class="element1 col-md-4">
+						<h:selectOneMenu id="s2" class="form-control" value="#{configurateurBean.motorisation.nomMoteur}" disabled="#{configurateurBean.finitionNotSelected}">
+						    <f:selectItem itemValue="#{null}" itemLabel="--Select--" itemDisabled="true" />
+						    <f:selectItems value="#{configurateurBean.motorisations}" var="moto" itemValue="#{moto.nomMoteur}" itemLabel="#{moto.nomMoteur}" />
+						<f:ajax event="valueChange" listener ="#{configurateurBean.updateMotorisation}" render="t3 prixTot" ></f:ajax>
 						</h:selectOneMenu>
 					</div>
 					
@@ -103,27 +108,29 @@
 						<h:panelGroup id="t3">			
 							<table id= "table3" class="table table-striped gpaTitle chargecenter">
 								<tr>
-									<th>nom</th>
-									<th>puissance</th>
-									<th>prix</th>
+									<th>Nom</th>
+									<th>Puissance</th>
+									<th>Prix</th>
 								</tr>				
 								
 								<tr>
-									<td><h:outputText value="#{gestForTest.motorisation.nomMoteur}"/></td>
-									<td><h:outputText value="#{gestForTest.motorisation.puissance}"/></td>
-									<td><h:outputText value="#{gestForTest.motorisation.prix}"/></td>
+									<td><h:outputText value="#{configurateurBean.motorisation.nomMoteur}"/></td>
+									<td><h:outputText value="#{configurateurBean.motorisation.puissance}"/></td>
+									<td><h:outputText value="#{configurateurBean.motorisation.prix}"/></td>
 								</tr>	
 							</table>
 						</h:panelGroup>
 					</div>
 				</div>
 				
-				<h:outputText value="Choix des jantes: " /> <br/>
+				<br/>
 				<div id="conteneur4">
-					<div class="element1">
-						<h:selectOneMenu value="#{gestForTest.jante.matiere}">
-						    <f:selectItems value="#{gestForTest.jantes}" var="jan" itemValue="#{jan.matiere}" itemLabel="#{jan.matiere}" />
-						<f:ajax event="valueChange" listener ="#{gestForTest.updateTypeJante}" render="t4 t7" ></f:ajax>
+					<div class="col-md-4 text-left lead">Choix des jantes: </div>
+					<div class="element1 col-md-4">
+						<h:selectOneMenu id="s3" class="form-control" value="#{configurateurBean.jante.nom}" disabled="#{configurateurBean.finitionNotSelected}">
+						    <f:selectItem itemValue="#{null}" itemLabel="--Select--" itemDisabled="true" />
+						    <f:selectItems value="#{configurateurBean.jantes}" var="jan" itemValue="#{jan.nom}" itemLabel="#{jan.nom}" />
+						<f:ajax event="valueChange" listener ="#{configurateurBean.updateTypeJante}" render="t4 prixTot" ></f:ajax>
 						</h:selectOneMenu>
 					</div>
 							
@@ -131,27 +138,31 @@
 						<h:panelGroup id="t4">		
 							<table id= "table4" class="table table-striped gpaTitle chargecenter">
 								<tr>
-									<th>matiere</th>
-									<th>diametre</th>
-									<th>prix</th>
+									<th>Nom</th>
+									<th>Matiere</th>
+									<th>Diametre</th>
+									<th>Prix</th>
 								</tr>				
 								
 								<tr>
-									<td><h:outputText value="#{gestForTest.jante.matiere}"/></td>
-									<td><h:outputText value="#{gestForTest.jante.diametre}"/></td>
-									<td><h:outputText value="#{gestForTest.jante.prix}"/></td>
+									<td><h:outputText value="#{configurateurBean.jante.nom}"/></td>
+									<td><h:outputText value="#{configurateurBean.jante.matiere}"/></td>
+									<td><h:outputText value="#{configurateurBean.jante.diametre}"/></td>
+									<td><h:outputText value="#{configurateurBean.jante.prix}"/></td>
 								</tr>	
 							</table>
 						</h:panelGroup>
 					</div>
 				</div>
 				
-				<h:outputText value="Choix de la couleur: " /> <br/>
+				<br/>
 				<div id="conteneur5">
-					<div class="element1">
-						<h:selectOneMenu value="#{gestForTest.couleur.couleur}">
-						    <f:selectItems value="#{gestForTest.couleurs}" var="coul" itemValue="#{coul.couleur}" itemLabel="#{coul.couleur}" />
-						<f:ajax event="valueChange" listener ="#{gestForTest.updateCouleur}" render="t5 t7" ></f:ajax>
+					<div class="col-md-4 text-left lead">Choix de la couleur: </div>
+					<div class="element1 col-md-4">
+						<h:selectOneMenu id="s4" class="form-control" value="#{configurateurBean.couleur.couleur}" disabled="#{configurateurBean.finitionNotSelected}">
+						    <f:selectItem itemValue="#{null}" itemLabel="--Select--" itemDisabled="true" />
+						    <f:selectItems value="#{configurateurBean.couleurs}" var="coul" itemValue="#{coul.couleur}" itemLabel="#{coul.couleur}" />
+						<f:ajax event="valueChange" listener ="#{configurateurBean.updateCouleur}" render="t5 prixTot" ></f:ajax>
 						</h:selectOneMenu>
 					</div>
 							
@@ -159,25 +170,25 @@
 						<h:panelGroup id="t5">		
 							<table id= "table5" class="table table-striped gpaTitle chargecenter">
 								<tr>
-									<th>couleur</th>
-									<th>prix</th>
+									<th>Couleur</th>
+									<th>Prix</th>
 								</tr>				
 								
 								<tr>
-									<td><h:outputText value="#{gestForTest.couleur.couleur}"/></td>
-									<td><h:outputText value="#{gestForTest.couleur.prix}"/></td>
+									<td><h:outputText value="#{configurateurBean.couleur.couleur}"/></td>
+									<td><h:outputText value="#{configurateurBean.couleur.prix}"/></td>
 								</tr>	
 							</table>
 						</h:panelGroup>
 					</div>
 				</div>
 				
-				<h:outputText value="Choix des options: " />
 				<div id="conteneur6">
+					<div class="text-left lead">Choix des options: </div>
 					<div class="element1">
-						<h:selectManyCheckbox layout="pageDirection" value = "#{gestForTest.currentOpts}"> 
-						   <f:selectItems value="#{gestForTest.options}" var="opt" itemValue="#{opt.nom}" itemLabel="#{opt.nom}" />
-						<f:ajax event="click" listener ="#{gestForTest.updateCurrentOptionSups}" render="t6 t7" ></f:ajax>
+						<h:selectManyCheckbox id="s5" layout="pageDirection" value = "#{configurateurBean.currentOpts}" disabled="#{configurateurBean.finitionNotSelected}"> 
+						   <f:selectItems value="#{configurateurBean.options}" var="opt" itemValue="#{opt.nom}" itemLabel="#{opt.nom}" />
+						<f:ajax event="click" listener ="#{configurateurBean.updateCurrentOptionSups}" render="t6 prixTot" ></f:ajax>
 						</h:selectManyCheckbox>
 					</div>
 						
@@ -185,12 +196,12 @@
 						<h:panelGroup id="t6">
 							<table id= "table6" class="table table-striped gpaTitle chargecenter">
 								<tr>
-									<th>nom</th>
-									<th>description</th>
-									<th>prix</th>
+									<th>Nom</th>
+									<th>Description</th>
+									<th>Prix</th>
 								</tr>				
 								
-								<ui:repeat value="#{gestForTest.currentOptions}" var="opti">
+								<ui:repeat value="#{configurateurBean.currentOptionsSelected}" var="opti">
 									<tr>
 										<td><h:outputText value="#{opti.nom}"/></td>
 										<td><h:outputText value="#{opti.description}"/></td>
@@ -203,13 +214,16 @@
 					</div>
 				</div>
 				
-				<h:panelGroup id="t7">
-					<h:outputText value="Prix total de la voiture " />
-					<h:outputText value="#{gestForTest.prixTotal} " />
+				<h:panelGroup layout="block" id="prixTot">
+					<div class="prix">
+						<h:outputText value="Prix total de la voiture #{configurateurBean.prixTotal} €" />
+					</div>
 				</h:panelGroup>
-			</h:form>
 				
-			
+				<h:commandButton value = "Valider" onclick = "#{configurateurBean.insertVoiture}" /> 
+				
+								
+			</h:form>
 		</div>			
 	</main>
 

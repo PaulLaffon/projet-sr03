@@ -53,6 +53,15 @@ public class TypeFinition implements Serializable {
 
 	public TypeFinition() {
 	}
+	
+	public TypeFinition(String id, BigDecimal prix, String type) {
+		super();
+		this.id = id;
+		this.prix = prix;
+		this.type = type;
+	}
+
+
 
 	public String getId() {
 		return this.id;

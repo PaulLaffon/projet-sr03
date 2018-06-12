@@ -20,8 +20,6 @@ public class Voiture implements Serializable {
 	@Id
 	private String id;
 
-	private String nom;
-
 	//bi-directional many-to-one association to Couleur
 	@ManyToOne
 	private Couleur couleur;
@@ -66,14 +64,6 @@ public class Voiture implements Serializable {
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public String getNom() {
-		return this.nom;
-	}
-
-	public void setNom(String nom) {
-		this.nom = nom;
 	}
 
 	public Couleur getCouleur() {

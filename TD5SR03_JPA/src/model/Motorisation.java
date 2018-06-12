@@ -48,6 +48,16 @@ public class Motorisation implements Serializable {
 	public Motorisation() {
 	}
 
+	public Motorisation(String id, String nomMoteur, BigDecimal prix, int puissance) {
+		super();
+		this.id = id;
+		this.nomMoteur = nomMoteur;
+		this.prix = prix;
+		this.puissance = puissance;
+	}
+
+
+
 	public String getId() {
 		return this.id;
 	}

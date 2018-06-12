@@ -37,9 +37,12 @@ public class GestForTest {
     
     private List<OptionsSupTemplate> options;
     private List<String> currentOpts;
-    private List<OptionsSupTemplate> currentOptions;
+    private List<OptionsSupTemplate> currentOptionsSelected;
     
     private BigDecimal prixTotal;
+    
+    private boolean modeleNotSelected;
+    private boolean finitionNotSelected;
     
     @PostConstruct
     public void init() {
@@ -81,8 +84,12 @@ public class GestForTest {
 		this.motorisation = new MotorisationTemplate();
 		this.jante = new TypeJanteTemplate();
 		
-		this.currentOptions = new ArrayList<OptionsSupTemplate>();
+		this.currentOptionsSelected = new ArrayList<OptionsSupTemplate>();
 		this.currentOpts = new ArrayList<String>();
+		
+		this.modeleNotSelected = true;
+		this.finitionNotSelected = true;
+		
 		this.prixTotal = new BigDecimal(0);
     }
 
@@ -174,12 +181,12 @@ public class GestForTest {
 		this.options = options;
 	}
 
-	public List<OptionsSupTemplate> getCurrentOptions() {
-		return currentOptions;
+	public List<OptionsSupTemplate> getCurrentOptionsSelected() {
+		return currentOptionsSelected;
 	}
 
-	public void setCurrentOptions(List<OptionsSupTemplate> currentOptions) {
-		this.currentOptions = currentOptions;
+	public void setCurrentOptionsSelected(List<OptionsSupTemplate> currentOptions) {
+		this.currentOptionsSelected = currentOptions;
 	}
 
 	public List<String> getCurrentOpts() {
@@ -198,23 +205,91 @@ public class GestForTest {
 		this.prixTotal = prixTotal;
 	}
 
-	public void updateTypeFinition(AjaxBehaviorEvent event) {
-		Client client = ClientBuilder.newClient();
-		String name = getFinition().getType();
-		this.finition = client.target("http://localhost:8080/TD5SR03_REST/voiture/finitionByName")  //Appel du Web Service
-				.queryParam("name", name)  //Avec ces paramètres
-				.request(MediaType.APPLICATION_JSON)  //On obtient résultat sous forme de JSON
-				.get(new GenericType<TypeFinitionTemplate>() {});  //On transfert le JSON dans l'objet TypeFinitionTemplate
-		this.updatePrixTotal();
+	public boolean isModeleNotSelected() {
+		return modeleNotSelected;
 	}
-	
+
+	public void setModeleNotSelected(boolean modeleNotSelected) {
+		this.modeleNotSelected = modeleNotSelected;
+	}
+
+	public boolean isFinitionNotSelected() {
+		return finitionNotSelected;
+	}
+
+	public void setFinitionNotSelected(boolean finitionNotSelected) {
+		this.finitionNotSelected = finitionNotSelected;
+	}
+
 	public void updateModele(AjaxBehaviorEvent event) {
 		Client client = ClientBuilder.newClient();
 		String name = getModele().getNom();
+		//On update ceci pour le tableau (valeur sélectionnée)
 		this.modele = client.target("http://localhost:8080/TD5SR03_REST/voiture/ModeleByName")  //Appel du Web Service
 				.queryParam("name", name)  //Avec ces paramètres
 				.request(MediaType.APPLICATION_JSON)  //On obtient résultat sous forme de JSON
 				.get(new GenericType<ModeleTemplate>() {});  //On transfert le JSON dans l'objet VoitureTemplate
+		
+		//On update la liste pour savoir les valeurs dispo selon le modele choisi
+		this.finitions = client.target("http://localhost:8080/TD5SR03_REST/voiture/finitionsByModeleName")  //Appel du Web Service
+				.queryParam("name", name)  //Avec ces paramètres
+				.request(MediaType.APPLICATION_JSON)  //On obtient résultat sous forme de JSON
+				.get(new GenericType<List<TypeFinitionTemplate>>() {});
+		
+		this.options = client.target("http://localhost:8080/TD5SR03_REST/voiture/optionSups")  //Appel du Web Service
+				.request(MediaType.APPLICATION_JSON)  //On obtient résultat sous forme de JSON
+				.get(new GenericType<List<OptionsSupTemplate>>() {});  //On transfert le JSON dans l'objet TypeFinitionTemplate	
+		
+		//Lorsqu'on change le modele, on reset tout car les valeurs qui avaient été séléctionnés ne sont plus forcement disponible pour le nouveau modele
+		this.finition = new TypeFinitionTemplate();
+		this.motorisation = new MotorisationTemplate();
+		this.jante = new TypeJanteTemplate();
+		this.couleur = new CouleurTemplate();
+		this.currentOpts.clear();
+		this.currentOptionsSelected.clear();
+		
+		this.modeleNotSelected = false;
+		this.finitionNotSelected = true;
+		
+		this.updatePrixTotal();
+	}
+	
+	public void updateTypeFinition(AjaxBehaviorEvent event) {
+		Client client = ClientBuilder.newClient();
+		String name = getFinition().getType();
+		//On update ceci pour le tableau (valeur sélectionnée)
+		this.finition = client.target("http://localhost:8080/TD5SR03_REST/voiture/finitionByName")  //Appel du Web Service
+				.queryParam("name", name)  //Avec ces paramètres
+				.request(MediaType.APPLICATION_JSON)  //On obtient résultat sous forme de JSON
+				.get(new GenericType<TypeFinitionTemplate>() {});  //On transfert le JSON dans l'objet TypeFinitionTemplate
+		
+		//On update les listes pour savoir les valeurs dispo selon la finition choisi
+		this.couleurs = client.target("http://localhost:8080/TD5SR03_REST/voiture/couleursByFinitionName")  //Appel du Web Service
+				.queryParam("name", name)  //Avec ces paramètres
+				.request(MediaType.APPLICATION_JSON)  //On obtient résultat sous forme de JSON
+				.get(new GenericType<List<CouleurTemplate>>() {});
+		this.motorisations = client.target("http://localhost:8080/TD5SR03_REST/voiture/motorisationsByFinitionName")  //Appel du Web Service
+				.queryParam("name", name)  //Avec ces paramètres
+				.request(MediaType.APPLICATION_JSON)  //On obtient résultat sous forme de JSON
+				.get(new GenericType<List<MotorisationTemplate>>() {});
+		this.jantes = client.target("http://localhost:8080/TD5SR03_REST/voiture/typeJantesByFinitionName")  //Appel du Web Service
+				.queryParam("name", name)  //Avec ces paramètres
+				.request(MediaType.APPLICATION_JSON)  //On obtient résultat sous forme de JSON
+				.get(new GenericType<List<TypeJanteTemplate>>() {});
+		this.options = client.target("http://localhost:8080/TD5SR03_REST/voiture/optionSupsByFinitionName")  //Appel du Web Service
+				.queryParam("name", name)  //Avec ces paramètres
+				.request(MediaType.APPLICATION_JSON)  //On obtient résultat sous forme de JSON
+				.get(new GenericType<List<OptionsSupTemplate>>() {});
+		
+		//Lorsqu'on change la finition, on reset tout car les valeurs qui avaient été séléctionnés ne sont plus forcement disponible pour la nouvelle finition
+		this.motorisation = new MotorisationTemplate();
+		this.jante = new TypeJanteTemplate();
+		this.couleur = new CouleurTemplate();
+		this.currentOpts.clear();
+		this.currentOptionsSelected.clear();
+		
+		this.finitionNotSelected = false;
+		
 		this.updatePrixTotal();
 	}
 	
@@ -240,7 +315,7 @@ public class GestForTest {
 	
 	public void updateTypeJante(AjaxBehaviorEvent event) {
 		Client client = ClientBuilder.newClient();
-		String name = getJante().getMatiere();
+		String name = getJante().getNom();
 		this.jante = client.target("http://localhost:8080/TD5SR03_REST/voiture/TypeJanteByName")  //Appel du Web Service
 				.queryParam("name", name)  //Avec ces paramètres
 				.request(MediaType.APPLICATION_JSON)  //On obtient résultat sous forme de JSON
@@ -249,10 +324,10 @@ public class GestForTest {
 	}
 	
 	public void updateCurrentOptionSups(AjaxBehaviorEvent event) {
-		this.currentOptions.clear();
+		this.currentOptionsSelected.clear();
 		Client client = ClientBuilder.newClient();
 		for(String x : getCurrentOpts()) {
-			this.currentOptions.add(client.target("http://localhost:8080/TD5SR03_REST/voiture/OptionSupByName")  //Appel du Web Service
+			this.currentOptionsSelected.add(client.target("http://localhost:8080/TD5SR03_REST/voiture/OptionSupByName")  //Appel du Web Service
 					.queryParam("name", x)  //Avec ces paramètres
 					.request(MediaType.APPLICATION_JSON)  //On obtient résultat sous forme de JSON
 					.get(new GenericType<OptionsSupTemplate>() {}));  //On transfert le JSON dans l'objet VoitureTemplate
@@ -267,7 +342,7 @@ public class GestForTest {
 			.add(getCouleur().getPrix())
 			.add(getJante().getPrix())
 			.add(getMotorisation().getPrix()));
-		for(OptionsSupTemplate x: getCurrentOptions()) {
+		for(OptionsSupTemplate x: getCurrentOptionsSelected()) {
 			this.setPrixTotal(this.getPrixTotal().add(x.getPrix()));
 		}
 		

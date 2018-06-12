@@ -46,6 +46,18 @@ public class Modele implements Serializable {
 
 	public Modele() {
 	}
+	
+	
+
+	public Modele(String id, String marque, String nom, BigDecimal prix) {
+		super();
+		this.id = id;
+		this.marque = marque;
+		this.nom = nom;
+		this.prix = prix;
+	}
+
+
 
 	public String getId() {
 		return this.id;

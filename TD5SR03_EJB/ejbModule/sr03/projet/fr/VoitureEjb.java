@@ -144,28 +144,6 @@ public class VoitureEjb implements VoitureLocalEjb {
 		 BigDecimal prixVoiture = (BigDecimal) q.getSingleResult() ;
 		 return prixVoiture;
 	}
-
-	//Ne marche pas, je sais pas pourquoi, j'ai essayé 5000 trucs ..,
-	//Récupérer les voitures en dessous d'un certain budget
-	public List<Voiture> getVoitureByBudget(BigDecimal prix){
-		Query q = em.createQuery("SELECT v.id, modele.prix + couleur.prix + typeFinition.prix + moteur.prix + jante.prix + SUM(optionsSups.prix) as prixTotal FROM Voiture v "
-				+ "JOIN v.modele modele "
-				+ "JOIN v.couleur couleur "
-				+ "JOIN v.typeFinition typeFinition "
-		 		+ "JOIN v.motorisation moteur "
-		 		+ "JOIN v.typeJante jante "
-		 		+ "JOIN v.optionSups optionsSups "
-		 		+ "GROUP BY v.id"
-		 		+ "HAVING prixTotal <=:prixMax");
-			 
-		 q.setParameter("prixMax", prix);
-		 
-		 List<Voiture> voitures = q.getResultList();
-		 return voitures;
-		
-	}
-	
-	//EN TEST
 	
 	@SuppressWarnings("unchecked")
 	public List<String> getFinitionsNames()
@@ -228,15 +206,75 @@ public class VoitureEjb implements VoitureLocalEjb {
 	
 	public TypeJante getTypeJanteByName(String name) {
 		//Create a query
-		 Query q = em.createQuery("SELECT f FROM TypeJante f WHERE f.matiere =:name");
+		 Query q = em.createQuery("SELECT f FROM TypeJante f WHERE f.nom =:name");
 		 
 		 //Set the parameter
 		 q.setParameter("name", name);
 		 
 		 return (TypeJante) q.getSingleResult();	 
 	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public List<TypeFinition> getTypeFinitionByModele(String modele){
+		 		
+		 Query q = em.createQuery("SELECT m.typeFinitions FROM Modele m "
+		 		+ "WHERE m.nom =:modele ");
+			 
+		 q.setParameter("modele", modele);
+		 
+		 List<TypeFinition> finitions = q.getResultList();
+		 return finitions;
+	 }
+	
+	@SuppressWarnings("unchecked")
+	public List<Couleur> getCouleursByFinition(String finition){
+		Query q = em.createQuery("SELECT t.couleurs FROM TypeFinition t "
+		 		+ "WHERE t.type =:finition ");
+			 
+		 q.setParameter("finition", finition);
+		 
+		 List<Couleur> couleurs = q.getResultList();
+		 return couleurs;
+	}
 
+	@SuppressWarnings("unchecked")
+	public List<TypeJante> getTypeJantesByFinition(String finition){
+		Query q = em.createQuery("SELECT t.typeJantes FROM TypeFinition t "
+		 		+ "WHERE t.type =:finition ");
+			 
+		 q.setParameter("finition", finition);
+		 
+		 List<TypeJante> typeJantes = q.getResultList();
+		 return typeJantes;
+		
+	}
 
+	@SuppressWarnings("unchecked")
+	public List<Motorisation> getMotorisationsByFinition(String finition){
+		Query q = em.createQuery("SELECT t.motorisations FROM TypeFinition t "
+		 		+ "WHERE t.type =:finition ");
+			 
+		 q.setParameter("finition", finition);
+		 
+		 List<Motorisation> motorisations = q.getResultList();
+		 return motorisations;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<OptionSup> getOptionSupsByFinition(String finition){
+		Query q = em.createQuery("SELECT t.optionSups FROM TypeFinition t "
+		 		+ "WHERE t.type =:finition ");
+			 
+		 q.setParameter("finition", finition);
+		 
+		 List<OptionSup> options = q.getResultList();
+		 return options;
+	}
+
+	public void insertVoiture(Voiture voiture){
+		em.persist(voiture);
+	}
     
     /*
      public void updateVoitures(List<Voiture> voitures)

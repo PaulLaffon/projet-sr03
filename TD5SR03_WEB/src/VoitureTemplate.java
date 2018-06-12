@@ -10,7 +10,6 @@ import model.TypeJante;
 public class VoitureTemplate {
 	
 	private String id;
-	private String nom;
 	private Couleur couleur;
 	private Modele modele;
 	private Motorisation motorisation;
@@ -25,12 +24,7 @@ public class VoitureTemplate {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getNom() {
-		return nom;
-	}
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
+
 	public Couleur getCouleur() {
 		return couleur;
 	}
