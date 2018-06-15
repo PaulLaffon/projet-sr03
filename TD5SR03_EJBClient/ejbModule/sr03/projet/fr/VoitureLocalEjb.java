@@ -38,10 +38,6 @@ public interface VoitureLocalEjb {
 	
 	public BigDecimal getPrixVoitureById(String id);
 	
-	public List<Voiture> getVoitureByBudget(BigDecimal prix);
-	
-	// En phase de test
-	
 	public List<String> getFinitionsNames();
 	
 	public TypeFinition getFinitionByName(String name);
@@ -55,6 +51,17 @@ public interface VoitureLocalEjb {
 	public OptionSup getOptionSupByName(String name);
 	
 	public TypeJante getTypeJanteByName(String name);
+	
+	public List<TypeFinition> getTypeFinitionByModele(String modele);
+	
+	public List<Couleur> getCouleursByFinition(String finition);
 
+	public List<TypeJante> getTypeJantesByFinition(String finition);
+
+	public List<Motorisation> getMotorisationsByFinition(String finition);
+
+	public List<OptionSup> getOptionSupsByFinition(String finition);
+
+	public void insertVoiture(Voiture voiture);
 
 }

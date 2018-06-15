@@ -18,6 +18,7 @@ import java.util.List;
 public class Couleur implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+
 	@Id
 	private String id;
 
@@ -44,6 +45,17 @@ public class Couleur implements Serializable {
 
 	public Couleur() {
 	}
+
+	
+	
+	public Couleur(String id, String couleur, BigDecimal prix) {
+		super();
+		this.id = id;
+		this.couleur = couleur;
+		this.prix = prix;
+	}
+
+
 
 	public String getId() {
 		return this.id;

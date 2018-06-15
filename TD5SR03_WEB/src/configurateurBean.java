@@ -2,23 +2,32 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import model.Couleur;
+import model.Modele;
+import model.Motorisation;
+import model.OptionSup;
+import model.TypeFinition;
+import model.TypeJante;
+import model.Voiture;
 
-import sr03.projet.fr.VoitureLocalEjb;
-
+import java.awt.event.ActionEvent;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 
 
 @ManagedBean
 @ViewScoped
-public class GestForTest {
+public class configurateurBean {
 
     private CouleurTemplate couleur;
     private List<CouleurTemplate> couleurs; 
@@ -43,40 +52,26 @@ public class GestForTest {
     
     private boolean modeleNotSelected;
     private boolean finitionNotSelected;
+    private boolean notFinished;
     
     @PostConstruct
     public void init() {
-    	this.finitions = new ArrayList<TypeFinitionTemplate>();
-		
-		
+    	
 		Client client = ClientBuilder.newClient();
 		
 		//Ca serait pas plus simple de mettre un objet 
 		//@EJB
 		//private VoitureLocalEjb voiture;  et d'appeller les méthodes à partir de lui au lieu de faire des appels à des web services ? Mais le prof avait fait avec web services pour exemple donc ??
-		this.finitions = client.target("http://localhost:8080/TD5SR03_REST/voiture/finitions")  //Appel du Web Service
-				.request(MediaType.APPLICATION_JSON)  //On obtient résultat sous forme de JSON
-				.get(new GenericType<List<TypeFinitionTemplate>>() {});  //On transfert le JSON dans l'objet TypeFinitionTemplate
-		
-		this.couleurs = client.target("http://localhost:8080/TD5SR03_REST/voiture/couleurs")  //Appel du Web Service
-				.request(MediaType.APPLICATION_JSON)  //On obtient résultat sous forme de JSON
-				.get(new GenericType<List<CouleurTemplate>>() {});  //On transfert le JSON dans l'objet TypeFinitionTemplate	
 		
 		this.modeles = client.target("http://localhost:8080/TD5SR03_REST/voiture/modeles")  //Appel du Web Service
 				.request(MediaType.APPLICATION_JSON)  //On obtient résultat sous forme de JSON
 				.get(new GenericType<List<ModeleTemplate>>() {});  //On transfert le JSON dans l'objet TypeFinitionTemplate	
 		
-		this.motorisations = client.target("http://localhost:8080/TD5SR03_REST/voiture/motorisations")  //Appel du Web Service
-				.request(MediaType.APPLICATION_JSON)  //On obtient résultat sous forme de JSON
-				.get(new GenericType<List<MotorisationTemplate>>() {});  //On transfert le JSON dans l'objet TypeFinitionTemplate	
-		
-		this.jantes = client.target("http://localhost:8080/TD5SR03_REST/voiture/typeJantes")  //Appel du Web Service
-				.request(MediaType.APPLICATION_JSON)  //On obtient résultat sous forme de JSON
-				.get(new GenericType<List<TypeJanteTemplate>>() {});  //On transfert le JSON dans l'objet TypeFinitionTemplate
-		
-		this.options = client.target("http://localhost:8080/TD5SR03_REST/voiture/optionSups")  //Appel du Web Service
-				.request(MediaType.APPLICATION_JSON)  //On obtient résultat sous forme de JSON
-				.get(new GenericType<List<OptionsSupTemplate>>() {});  //On transfert le JSON dans l'objet TypeFinitionTemplate	
+		this.finitions = new ArrayList<TypeFinitionTemplate>();
+		this.couleurs = new ArrayList<CouleurTemplate>();
+		this.motorisations = new ArrayList<MotorisationTemplate>();
+		this.jantes = new ArrayList<TypeJanteTemplate>();
+		this.options = new ArrayList<OptionsSupTemplate>();
 		
 		this.finition = new TypeFinitionTemplate();
 		this.couleur = new CouleurTemplate();
@@ -89,6 +84,7 @@ public class GestForTest {
 		
 		this.modeleNotSelected = true;
 		this.finitionNotSelected = true;
+		this.notFinished = true;
 		
 		this.prixTotal = new BigDecimal(0);
     }
@@ -216,9 +212,24 @@ public class GestForTest {
 	public boolean isFinitionNotSelected() {
 		return finitionNotSelected;
 	}
+	
+	public boolean isNotFinished() {
+		return notFinished;
+	}
 
 	public void setFinitionNotSelected(boolean finitionNotSelected) {
 		this.finitionNotSelected = finitionNotSelected;
+	}
+	
+	public void updateFinish() {
+		if(currentOptionsSelected.size() > 0)
+		{
+			notFinished = false;
+		}
+		else 
+		{
+			notFinished = true;
+		}
 	}
 
 	public void updateModele(AjaxBehaviorEvent event) {
@@ -252,6 +263,7 @@ public class GestForTest {
 		this.finitionNotSelected = true;
 		
 		this.updatePrixTotal();
+		updateFinish();
 	}
 	
 	public void updateTypeFinition(AjaxBehaviorEvent event) {
@@ -291,6 +303,7 @@ public class GestForTest {
 		this.finitionNotSelected = false;
 		
 		this.updatePrixTotal();
+		updateFinish();
 	}
 	
 	public void updateMotorisation(AjaxBehaviorEvent event) {
@@ -301,6 +314,7 @@ public class GestForTest {
 				.request(MediaType.APPLICATION_JSON)  //On obtient résultat sous forme de JSON
 				.get(new GenericType<MotorisationTemplate>() {});  //On transfert le JSON dans l'objet VoitureTemplate
 		this.updatePrixTotal();
+		updateFinish();
 	}
 	
 	public void updateCouleur(AjaxBehaviorEvent event) {
@@ -311,6 +325,7 @@ public class GestForTest {
 				.request(MediaType.APPLICATION_JSON)  //On obtient résultat sous forme de JSON
 				.get(new GenericType<CouleurTemplate>() {});  //On transfert le JSON dans l'objet VoitureTemplate	
 		this.updatePrixTotal();
+		updateFinish();
 	}
 	
 	public void updateTypeJante(AjaxBehaviorEvent event) {
@@ -321,6 +336,7 @@ public class GestForTest {
 				.request(MediaType.APPLICATION_JSON)  //On obtient résultat sous forme de JSON
 				.get(new GenericType<TypeJanteTemplate>() {});  //On transfert le JSON dans l'objet VoitureTemplate		
 		this.updatePrixTotal();
+		updateFinish();
 	}
 	
 	public void updateCurrentOptionSups(AjaxBehaviorEvent event) {
@@ -333,6 +349,7 @@ public class GestForTest {
 					.get(new GenericType<OptionsSupTemplate>() {}));  //On transfert le JSON dans l'objet VoitureTemplate
 		}
 		this.updatePrixTotal();
+		updateFinish();
 	}
 	
 	public void updatePrixTotal() {
@@ -345,10 +362,54 @@ public class GestForTest {
 		for(OptionsSupTemplate x: getCurrentOptionsSelected()) {
 			this.setPrixTotal(this.getPrixTotal().add(x.getPrix()));
 		}
-		
 	}
-    
-    
-
-    // ... (getters, setters, etc)
+	
+	
+	public void insertVoiture(AjaxBehaviorEvent event) throws UnsupportedEncodingException {	
+		Voiture voiture = new Voiture();
+		String name = this.finition.getType();
+		System.out.println(name);
+		Client client = ClientBuilder.newClient();
+		Couleur couleurtemp = client.target("http://localhost:8080/TD5SR03_REST/voiture/couleurByName")  //Appel du Web Service
+			.queryParam("name", this.couleur.getCouleur())
+			.request(MediaType.APPLICATION_JSON)
+			.get(new GenericType<Couleur>() {});
+		System.out.println(couleurtemp.getCouleur());
+		Modele modeletemp = client.target("http://localhost:8080/TD5SR03_REST/voiture/ModeleByName")  //Appel du Web Service
+				.queryParam("name", this.modele.getNom())
+				.request(MediaType.APPLICATION_JSON)
+				.get(new GenericType<Modele>() {});
+		Motorisation motorisationtemp = client.target("http://localhost:8080/TD5SR03_REST/voiture/MotorisationByName")  //Appel du Web Service
+				.queryParam("name", this.motorisation.getNomMoteur())
+				.request(MediaType.APPLICATION_JSON)
+				.get(new GenericType<Motorisation>() {});
+		List<OptionSup> optionstemp = new ArrayList<OptionSup>();
+		for(String x : getCurrentOpts()) {
+			optionstemp.add(client.target("http://localhost:8080/TD5SR03_REST/voiture/OptionSupByName")
+					.queryParam("name", x)
+					.request(MediaType.APPLICATION_JSON)
+					.get(new GenericType<OptionSup>() {}));
+		}		
+		TypeFinition typeFinitiontemp = new TypeFinition();
+		typeFinitiontemp = client.target("http://localhost:8080/TD5SR03_REST/voiture/finitionByName")  //Appel du Web Service
+				.queryParam("name", name)
+				.request(MediaType.APPLICATION_JSON)
+				.get(new GenericType<TypeFinition>() {});
+		System.out.println(typeFinitiontemp.getType());
+		TypeJante typeJantetemp = client.target("http://localhost:8080/TD5SR03_REST/voiture/TypeJanteByName")  //Appel du Web Service
+				.queryParam("name", this.jante.getNom())
+				.request(MediaType.APPLICATION_JSON)
+				.get(new GenericType<TypeJante>() {});
+		voiture.setCouleur(couleurtemp);
+		voiture.setModele(modeletemp);
+		voiture.setMotorisation(motorisationtemp);
+		voiture.setOptionSups(optionstemp);
+		voiture.setTypeFinition(typeFinitiontemp);
+		voiture.setTypeJante(typeJantetemp);
+		
+		System.out.println("Ici");
+		
+		client.target("http://localhost:8080/TD5SR03_REST/voiture/insertVoiture").queryParam("voiture", URLEncoder.encode(voiture.toString(), "UTF-8"))
+				.request().post(null);
+	}
 }

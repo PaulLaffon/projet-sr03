@@ -49,6 +49,16 @@ public class OptionSup implements Serializable {
 	public OptionSup() {
 	}
 
+	public OptionSup(String id, String description, String nom, BigDecimal prix) {
+		super();
+		this.id = id;
+		this.description = description;
+		this.nom = nom;
+		this.prix = prix;
+	}
+
+
+
 	public String getId() {
 		return this.id;
 	}

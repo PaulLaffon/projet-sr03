@@ -1,9 +1,14 @@
 package model;
 
+import java.io.IOException;
 import java.io.Serializable;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
 
@@ -18,9 +23,8 @@ public class Voiture implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private String id;
-
-	private String nom;
 
 	//bi-directional many-to-one association to Couleur
 	@ManyToOne
@@ -66,14 +70,6 @@ public class Voiture implements Serializable {
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public String getNom() {
-		return this.nom;
-	}
-
-	public void setNom(String nom) {
-		this.nom = nom;
 	}
 
 	public Couleur getCouleur() {
@@ -124,5 +120,32 @@ public class Voiture implements Serializable {
 	public void setTypeJante(TypeJante typeJante) {
 		this.typeJante = typeJante;
 	}
-
+	
+	public String toString()
+	{
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			return mapper.writeValueAsString(this);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static Voiture fromString(String s)
+	{
+		ObjectMapper mapper = new ObjectMapper();
+		
+		try {
+			return (Voiture)mapper.readValue(s, Voiture.class);
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 }

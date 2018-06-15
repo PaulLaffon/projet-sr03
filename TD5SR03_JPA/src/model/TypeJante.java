@@ -21,6 +21,8 @@ public class TypeJante implements Serializable {
 
 	@Id
 	private String id;
+	
+	private String nom;
 
 	private BigDecimal diametre;
 
@@ -45,6 +47,15 @@ public class TypeJante implements Serializable {
 	@OneToMany(mappedBy="typeJante")
 	private List<Voiture> voitures;
 
+	public TypeJante(String id, String nom, BigDecimal diametre, String matiere, BigDecimal prix) {
+		super();
+		this.id = id;
+		this.nom = nom;
+		this.diametre = diametre;
+		this.matiere = matiere;
+		this.prix = prix;
+	}
+	
 	public TypeJante() {
 	}
 
@@ -54,6 +65,16 @@ public class TypeJante implements Serializable {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	
+
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
 	}
 
 	public BigDecimal getDiametre() {

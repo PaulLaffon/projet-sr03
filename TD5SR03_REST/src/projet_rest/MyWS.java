@@ -5,8 +5,11 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -17,6 +20,7 @@ import model.Couleur;
 import model.Motorisation;
 import model.TypeFinition;
 import model.TypeJante;
+import model.Voiture;
 import sr03.projet.fr.VoitureLocalEjb;
 
 @Stateless
@@ -109,15 +113,6 @@ public class MyWS { /* Mon Web Service */
     }
 	
 	@GET
-	@Path("/voituresByBudget")
-    public Response getVoitureByBudget(@QueryParam("prix") BigDecimal prixMax)
-    {
-		return Response.ok(this.voiture.getVoitureByBudget(prixMax)).build();
-    }
-	
-	//EN TEST
-	
-	@GET
 	@Path("/finitionsNames") //URI
     public Response getFinitionsNames()
     {
@@ -168,6 +163,53 @@ public class MyWS { /* Mon Web Service */
 		return Response.ok(this.voiture.getOptionSupByName(name)).build();
     }
 	
+	@GET
+	@Path("/finitionsByModeleName") //URI
+    public Response getTypeFinitionByModele(@QueryParam("name") String name)
+    {
+		return Response.ok(this.voiture.getTypeFinitionByModele(name)).build();
+    }
+	
+	@GET
+	@Path("/couleursByFinitionName") //URI
+    public Response getCouleursByFinition(@QueryParam("name") String name)
+    {
+		return Response.ok(this.voiture.getCouleursByFinition(name)).build();
+    }
+	
+	@GET
+	@Path("/typeJantesByFinitionName") //URI
+    public Response getTypeJantesByFinition(@QueryParam("name") String name)
+    {
+		return Response.ok(this.voiture.getTypeJantesByFinition(name)).build();
+    }
+	
+	@GET
+	@Path("/motorisationsByFinitionName") //URI
+    public Response getMotorisationsByFinition(@QueryParam("name") String name)
+    {
+		return Response.ok(this.voiture.getMotorisationsByFinition(name)).build();
+    }
+	
+	@GET
+	@Path("/optionSupsByFinitionName") //URI
+    public Response getOptionSupsByFinition(@QueryParam("name") String name)
+    {
+		return Response.ok(this.voiture.getOptionSupsByFinition(name)).build();
+    }
+	
+	
+	@POST
+	@Path("/insertVoiture") //URI
+    public Response insertVoiture(@QueryParam("voiture") String string_voiture)
+    {
+		System.out.println(string_voiture);
+		Voiture v = Voiture.fromString(string_voiture);
+		
+		this.voiture.insertVoiture(v);
+		
+		return Response.ok().build();
+    }
 	
 	
 }

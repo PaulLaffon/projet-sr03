@@ -7,7 +7,8 @@ public class TypeJanteTemplate implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String id;
-	private String diametre;
+	private String nom;
+	private BigDecimal diametre;
 	private String matiere;
 	private BigDecimal prix;
 
@@ -22,16 +23,25 @@ public class TypeJanteTemplate implements Serializable {
 	public void setId(String id) {
 		this.id = id;
 	}
+	
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
 	public BigDecimal getPrix() {
 		return prix;
 	}
 	public void setPrix(BigDecimal prix) {
 		this.prix = prix;
 	}
-	public String getDiametre() {
+	public BigDecimal getDiametre() {
 		return diametre;
 	}
-	public void setDiametre(String diametre) {
+	public void setDiametre(BigDecimal diametre) {
 		this.diametre = diametre;
 	}
 	public String getMatiere() {
